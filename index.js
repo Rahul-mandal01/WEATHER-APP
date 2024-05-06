@@ -2,6 +2,7 @@
 // // THIS FILE IS USED AS A PRACTICE SESSION AND BASIC UNDERSTANDING OF WEATHER APP
 
 // console.log('hello jii');
+// console.log('hello jii');
 
 // const API_KEY = "416da1ee2c3d4102062294581fa1f086";
 
