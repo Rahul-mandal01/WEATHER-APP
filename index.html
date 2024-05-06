@@ -8,8 +8,6 @@
     <meta name="copyright" content="Copyright © 2023 Rahul Kumar Mandal">
     <title>Weather App</title>
     <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css">
@@ -29,7 +27,7 @@
 
             <!-- grant location container-->
             <div class="sub-container grant-location-container">
-                <img src="./assets/location.png" width="80" height="80" loading="lazy">
+                <img src="./assets/location.png" width="80" height="80" loading="lazy" alt="">
                 <p>Grant Location Access</p>
                 <p data-messageText >Allow Access to get weather Information</p>
                 <button class="btn" data-grantAccess>Grant Access</button>
@@ -38,14 +36,14 @@
             <!-- search form -> form-container-->
             <form class="form-container" data-searchForm>
                 <input placeholder="Search for City..." data-searchInput>
-                <button class="btn" type="submit">
-                    <img src="./assets/search.png"  width="20" height="20" loading="lazy">
+                <button class="btn" title="Search..">
+                    <img src="./assets/search.png"  width="20" height="20" loading="lazy" alt="">
                 </button>
             </form>
 
             <!--- loading screen container -->
             <div class="sub-container loading-container">
-                <img src="./assets/loading.gif" width="150" height="150">
+                <img src="./assets/loading.gif" width="150" height="150" alt="">
                 <p>Loading</p>
             </div>
 
@@ -55,13 +53,13 @@
                 <!--city name and Flag-->
                 <div class="name">
                     <p data-cityName></p>
-                    <img data-countryIcon>
+                    <img data-countryIcon alt="">
                 </div>
 
                 <!-- weather descriptuion-->
                 <p data-weatherDesc></p>
                 <!--weather Icon-->
-                <img data-weatherIcon>
+                <img data-weatherIcon alt="">
                 <!--temperature-->
                 <p data-temp></p>
 
@@ -70,21 +68,21 @@
 
                     <!--card 1-->
                     <div class="parameter">
-                        <img src="./assets/wind.png" >
+                        <img src="./assets/wind.png" alt="" >
                         <p>windspeed</p>
                         <p data-windspeed></p>
                     </div>
 
                     <!--card 2-->
                     <div class="parameter">
-                        <img src="./assets/humidity.png" >
+                        <img src="./assets/humidity.png" alt="" >
                         <p>humidity</p>
                         <p data-humidity></p>
                     </div>
 
                     <!--card 3-->
                     <div class="parameter">
-                        <img src="./assets/cloud.png" >
+                        <img src="./assets/cloud.png" alt="" >
                         <p>Clouds</p>
                         <p data-cloudiness></p>
                     </div>
@@ -96,7 +94,7 @@
 
             <!-- handle api fetch error -->
             <div class="sub-container api-error-container">
-                <img src="./assets/not-found.png" data-notFoundImg />
+                <img src="./assets/not-found.png" alt="" data-notFoundImg />
                 <p data-apiErrorText></p>
                 <button class="btn" data-apiErrorBtn > Retry </button>
 
