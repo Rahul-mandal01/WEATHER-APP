@@ -11,6 +11,8 @@ const apiErrorImg = document.querySelector("[data-notFoundImg]");
 const apiErrorMessage = document.querySelector("[data-apiErrorText]");
 const apiErrorBtn = document.querySelector("[data-apiErrorBtn]");
 const apiErrorContainer = document.querySelector(".api-error-container");
+const searchInput = document.querySelector("[data-searchInput]");
+
 
 
 
@@ -27,6 +29,7 @@ function switchTab(newTab) {
 
         if(!searchForm.classList.contains("active")) {
             //kya search form wala container is invisible, if yes then make it visible
+
             userInfoContainer.classList.remove("active");
             grantAccessContainer.classList.remove("active");
             searchForm.classList.add("active");
@@ -36,7 +39,7 @@ function switchTab(newTab) {
             //main pehle search wale tab pr tha, ab your weather tab visible karna h 
             searchForm.classList.remove("active");
             userInfoContainer.classList.remove("active");
-            //ab main your weather tab me aagya hu, toh weather bhi display karna poadega, so let's check local storage first
+            //ab mai your weather tab me aagya hu, toh weather bhi display karna poadega, so let's check local storage first
             //for coordinates, if we haved saved them there.
             getfromSessionStorage();
             }
@@ -56,12 +59,13 @@ searchTab.addEventListener("click", () => {
 
 //check if coordinates are already present in session storage
 function getfromSessionStorage() {
+    apiErrorContainer.classList.remove("active");
     const localCoordinates = sessionStorage.getItem("user-coordinates");
     if(!localCoordinates) {
         //agar local coordinates nahi mile
         grantAccessContainer.classList.add("active");
     }
-    else {
+    else { 
         const coordinates = JSON.parse(localCoordinates);
         fetchUserWeatherInfo(coordinates);
     }
@@ -81,7 +85,6 @@ async function fetchUserWeatherInfo(coordinates) {
             `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
           );
         const  data = await response.json();
-
         loadingScreen.classList.remove("active");
         userInfoContainer.classList.add("active");
         renderWeatherInfo(data);
@@ -93,7 +96,6 @@ async function fetchUserWeatherInfo(coordinates) {
         apiErrorContainer.classList.add("active");
         apiErrorImg.style.display = "none";
         apiErrorMessage.innerText = `Error: ${error?.message}`;
-        apiErrorBtn.addEventListener("click", fetchUserWeatherInfo);
         
     }
 
@@ -111,6 +113,7 @@ function renderWeatherInfo(weatherInfo) {
     const humidity = document.querySelector("[data-humidity]");
     const cloudiness = document.querySelector("[data-cloudiness]");
 
+    apiErrorContainer.classList.remove("active");
     console.log(weatherInfo);
 
     //fetch values from weatherIfo object and put it UI elements
@@ -127,22 +130,26 @@ function renderWeatherInfo(weatherInfo) {
 }
 
 function getLocation() {
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    }
-    else {
-        //HW - show an alert for no gelolocation support available
+    // Check if geolocation is supported by the browser
+    if (navigator.geolocation) {
+        // If supported, call getCurrentPosition method to get the user's current position
+        navigator.geolocation.getCurrentPosition(showPosition,showError);
+    } else {
+        // If geolocation is not supported by the browser
+        // Hide the grantAccessBtn (assuming it's a button to grant access to geolocation)
         grantAccessBtn.style.display = "none";
+        // Set the messageText (assuming it's a DOM element to display messages) to inform the user
         messageText.innerText = "Geolocation is not supported by this browser.";
     }
 }
+
 
 function showPosition(position) {
 
     const userCoordinates = {
         lat: position.coords.latitude,
         lon: position.coords.longitude,
-    }
+    };
 
     sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
     fetchUserWeatherInfo(userCoordinates);
@@ -170,7 +177,6 @@ function showError(error) {
 const grantAccessButton = document.querySelector("[data-grantAccess]");
 grantAccessButton.addEventListener("click", getLocation);
 
-const searchInput = document.querySelector("[data-searchInput]");
 
 searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -205,6 +211,12 @@ async function fetchSearchWeatherInfo(city) {
         loadingScreen.classList.remove("active");
         apiErrorContainer.classList.add("active");
         apiErrorMessage.innerText = `${error?.message}`;
-        apiErrorBtn.style.display = "none";
+        apiErrorBtn.addEventListener("click", searchAgain);
+        
     }
+}
+
+function searchAgain(){
+    apiErrorContainer.classList.remove("active");
+    searchInput.value="";
 }
